@@ -1,5 +1,6 @@
 import nj from 'numjs';
 import { Matrix } from './matrix';
+import { Vector } from './vector';
 import { World } from './world';
 
 export interface Ticks {
@@ -13,17 +14,31 @@ export class Axis {
   readonly m: Matrix;
   private xItemWidth: number = 0;
   private yItemWidth: number = 0;
+  private basisX: Vector;
+  private basisY: Vector;
+
   constructor(world: World, ticks: Ticks) {
     this.world = world;
     this.ticks = ticks;
+    this.basisX = new Vector([1, 0]);
+    this.basisY = new Vector([0, 1]);
     this.m = new Matrix([
       [1, 0, 250],
       [0, 1, 250],
       [0, 0, 1],
     ]);
-    this.render();
+    this.setTicks();
   }
+  setTicks() {
+    this.xItemWidth = this.world.width / (this.ticks.x[1] - this.ticks.x[0]);
+    this.yItemWidth = this.world.height / (this.ticks.y[1] - this.ticks.y[0]);
+  }
+
   render() {
+    for (let index = this.ticks.x[0]; index < this.ticks.x[1]; index++) {}
+  }
+
+  render1() {
     const ticks = this.ticks;
     const xTicks = nj.arange(ticks.x[0], ticks.x[1]);
     const yTicksReverse = nj.arange(ticks.y[0], ticks.y[1]);
