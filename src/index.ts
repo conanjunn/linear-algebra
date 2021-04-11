@@ -1,19 +1,16 @@
 import { Axis } from './axis';
 import { World } from './world';
 import { Draw } from './draw';
-import { print } from 'loshu';
-
-// @ts-ignore
-console.print = print;
 
 const world = new World();
 const axis = new Axis(world, {
-  x: [-5, 7],
-  y: [-5, 7],
+  x: [-5, 6],
+  y: [-5, 6],
 });
 Draw.itemWidth = axis.getItemWidth();
 Draw.ctx = world.ctx;
 
+axis.render();
 Draw.renderV([1, 1]);
 
 // const v = new Vector([1, 2]);

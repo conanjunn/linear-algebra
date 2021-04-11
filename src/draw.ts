@@ -1,5 +1,5 @@
 import { M, V } from './matrix';
-import { transform } from 'loshu';
+import { transform, add } from 'loshu';
 
 export class Draw {
   static ctx: CanvasRenderingContext2D;
@@ -9,9 +9,16 @@ export class Draw {
     [0, 1, 250],
     [0, 0, 1],
   ];
-  private static zero: V = Draw.dot([0, 0]);
+  private static zero: V = [250, 250];
   private static dot(v: V) {
-    const ret = transform(Draw.m, v);
+    const ret = transform(
+      add(Draw.m, [
+        [0, 0, Draw.itemWidth[0] * v[0]],
+        [0, 0, Draw.itemWidth[1] * v[1] * -1],
+        [0, 0, 0],
+      ]),
+      v
+    );
     return ret;
   }
   static renderV(v: V, color: string = 'red') {
@@ -23,7 +30,8 @@ export class Draw {
 
     ctx.beginPath();
     ctx.moveTo(Draw.zero[0], Draw.zero[1]);
-    ctx.lineTo(vv[0] + Draw.itemWidth[0], vv[1] - Draw.itemWidth[1]);
+    ctx.lineTo(vv[0], vv[1]);
+
     ctx.stroke();
   }
   static renderLine(v1: V, v2: V, color: string = '#D1D1D1') {
@@ -34,8 +42,8 @@ export class Draw {
     ctx.lineWidth = 1;
 
     ctx.beginPath();
-    ctx.moveTo(vv1[0] + Draw.itemWidth[0], vv1[1] - Draw.itemWidth[1]);
-    ctx.lineTo(vv2[0] + Draw.itemWidth[0], vv2[1] - Draw.itemWidth[1]);
+    ctx.moveTo(vv1[0], vv1[1]);
+    ctx.lineTo(vv2[0], vv2[1]);
     ctx.stroke();
   }
 }
