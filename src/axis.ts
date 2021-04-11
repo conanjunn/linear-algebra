@@ -49,5 +49,7 @@ export class Axis {
     return [this.xItemWidth, this.yItemWidth];
   }
 
-  setBasis() {}
+  setBasis(b: M) {
+    this.basis = b;
+  }
 }
