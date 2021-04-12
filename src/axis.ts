@@ -26,6 +26,9 @@ export class Axis {
       Math.floor((this.ticks.x[1] - this.ticks.x[0]) / 2),
       Math.floor((this.ticks.y[1] - this.ticks.y[0]) / 2),
     ];
+
+    Draw.itemWidth = [this.xItemWidth, this.yItemWidth];
+    Draw.ctx = world.ctx;
   }
 
   render() {
@@ -45,11 +48,11 @@ export class Axis {
     }
   }
 
-  getItemWidth(): V {
-    return [this.xItemWidth, this.yItemWidth];
-  }
-
   setBasis(b: M) {
     this.basis = b;
+  }
+
+  renderV(v: V, color?: string) {
+    Draw.renderV(transform(this.basis, v), color);
   }
 }
