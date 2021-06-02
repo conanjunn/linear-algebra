@@ -1,4 +1,3 @@
-import './ques1';
+// import './ques1';
 // import './vDot';
-
-
+import './sat';
