@@ -42,20 +42,30 @@ Draw.rect.apply(Draw, [
 
 const proAxis: V[] = getAxis(vertexArr).concat(getAxis(vertexArr2));
 
+let penetrationLen = 10000;
+let penetrationV: V = []; // 分离向量 穿透矢量
 for (let index = 0; index < proAxis.length; index++) {
   const axis = proAxis[index];
   const line1 = getProductLine(axis, vertexArr);
   const line2 = getProductLine(axis, vertexArr2);
 
-  Draw.renderLine(mul(axis, line1[0]), mul(axis, line1[1]), 'green');
-  Draw.renderLine(mul(axis, line2[0]), mul(axis, line2[1]), 'yellow');
+  // Draw.renderLine(mul(axis, line1[0]), mul(axis, line1[1]), 'green');
+  // Draw.renderLine(mul(axis, line2[0]), mul(axis, line2[1]), 'yellow');
 
   if (!isOverlap(line1, line2)) {
     console.log(line1, line2, '没有碰撞');
     alert('没有碰撞');
     break;
   }
+
+  const tmp = overlapLen(line1, line2);
+  if (tmp < penetrationLen) {
+    penetrationLen = tmp;
+    penetrationV = axis;
+  }
 }
+Draw.renderV(mul(penetrationV, penetrationLen), 'blue');
+console.log(penetrationLen, '---');
 
 function getAxis(vertexes: V[]) {
   const arr = [];
@@ -90,4 +100,22 @@ function isOverlap(line1: V, line2: V) {
     return true;
   }
   return false;
+}
+
+function overlapLen(line1: V, line2: V) {
+  let min1 = line1[0];
+  let max1 = line1[1];
+  let min2 = line2[0];
+  let max2 = line2[1];
+  let len1 = max1 - min1;
+  let len2 = max2 - min2;
+
+  let min = min1;
+  let max = min1 + len1;
+
+  if (min1 > min2) min = min2;
+
+  if (min1 + len1 < min2 + len2) max = min2 + len2;
+
+  return Math.abs(max - min - len1 - len2);
 }
