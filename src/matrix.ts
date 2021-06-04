@@ -31,3 +31,7 @@ export const sub = (v1: V, v2: V) => {
 export const add = (v1: V, v2: V) => {
   return [v1[0] + v2[0], v1[1] + v2[1]];
 };
+
+export const cross = (v1: V, v2: V) => {
+  return v1[0] * v2[1] - v2[0] * v1[1];
+};
